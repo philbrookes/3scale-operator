@@ -275,9 +275,6 @@ func (r *ReconcileThreeScale) InstallThreeScale(ts *threescalev1alpha1.ThreeScal
 	if ts.Spec.AdminUsername != "" {
 		decodedParams["ADMIN_USERNAME"] = string(ts.Spec.AdminUsername)
 	}
-	if ts.Spec.AdminEmail != "" {
-		decodedParams["ADMIN_EMAIL"] = string(ts.Spec.AdminEmail)
-	}
 	decodedParams["WILDCARD_DOMAIN"] = string(ts.Spec.RouteSuffix)
 	//Set params
 
@@ -328,7 +325,7 @@ func (r *ReconcileThreeScale) CheckInstallResourcesReady(ts *threescalev1alpha1.
 	}
 
 	adminRoute := &routev1.Route{}
-	err = r.client.Get(context.TODO(), types.NamespacedName{Name: "system-provider-admin-route", Namespace: ts.Namespace}, adminRoute)
+	err = r.client.Get(context.TODO(), types.NamespacedName{Name: "system-provider-admin", Namespace: ts.Namespace}, adminRoute)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to get admin route")
 	}
